@@ -11,3 +11,11 @@
 *.lai
 *.la
 *.a
+
+/bin
+
+/obj
+/ipch
+/Pizza.opensdf
+/Pizza.sdf
+/pizzaProject.vcxproj.user
