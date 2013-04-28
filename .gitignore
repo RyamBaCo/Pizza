@@ -12,10 +12,16 @@
 *.la
 *.a
 
-/bin
-
 /obj
 /ipch
 /Pizza.opensdf
 /Pizza.sdf
 /pizzaProject.vcxproj.user
+/bin/pizza_debug.lib
+/bin/pizza_debug_debugInfo.pdb
+/bin/pizza_debug.exp
+/bin/pizza_debug.ilk
+
+/bin/data/images/*.psd
+
+/Pizza.suo

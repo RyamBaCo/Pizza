@@ -2,6 +2,9 @@
 
 void pizzaApp::setup()
 {
+	pizzaBackground.loadImage("images/pizzaEmpty.png");
+	pizzaSlice.loadImage("images/pizzaSlice.png");
+	pizzaFront.loadImage("images/pizzaFront.png");
 }
 
 void pizzaApp::update()
@@ -10,6 +13,18 @@ void pizzaApp::update()
 
 void pizzaApp::draw()
 {
+	ofEnableAlphaBlending();
+	pizzaBackground.draw(0, 0);
+
+	ofPushMatrix();
+		ofTranslate(pizzaSlice.width / 2, pizzaSlice.height / 2, 0);
+		ofRotate(ofGetFrameNum() * .1, 0, 0, 1);
+		ofTranslate(-pizzaSlice.width / 2, -pizzaSlice.height / 2, 0);
+		pizzaSlice.draw(0, 0);
+	ofPopMatrix();
+
+	pizzaFront.draw(0, 0);
+	ofDisableAlphaBlending();
 }
 
 void pizzaApp::keyPressed(int key)
