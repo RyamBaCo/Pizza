@@ -1,7 +1,8 @@
 #pragma once
-
+#include <map>
 #include "ofMain.h"
 #include "PizzaImage.h"
+#include "Participant.h"
 
 class pizzaApp 
 	: public ofBaseApp
@@ -23,6 +24,8 @@ public:
 	void gotMessage(ofMessage msg);
 
 private:
+	std::map<int, Participant*> participants;
+
 	PizzaImage* pizzaBackground;
 	PizzaImage* pizzaSlice;
 	PizzaImage* pizzaFront;

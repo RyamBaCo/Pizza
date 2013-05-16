@@ -5,12 +5,17 @@ PizzaImage::PizzaImage(const std::string& imageFile)
 	pizzaImage.loadImage(imageFile);
 	// by default draw to center
 	drawPosition = ofPoint(
-		(ofGetWindowWidth() - pizzaImage.getWidth()) / 2,
-		(ofGetWindowHeight() - pizzaImage.getHeight()) / 2);
+		(ofGetWindowWidth() - pizzaImage.width) / 2,
+		(ofGetWindowHeight() - pizzaImage.height) / 2);
 }
 
 PizzaImage::~PizzaImage()
 {
+}
+
+ofPoint PizzaImage::getDrawPosition() const
+{
+	return drawPosition;
 }
 
 void PizzaImage::draw()
@@ -18,8 +23,15 @@ void PizzaImage::draw()
 	pizzaImage.draw(drawPosition);
 }
 
+void PizzaImage::draw(const ofPoint& position, float rotation /* = 0 */)
+{
+	drawPosition = position;
+	draw(rotation);
+}
+
 void PizzaImage::draw(float rotation)
 {
+	// by default we rotate around the image's center
 	ofPushMatrix();
 		ofTranslate(drawPosition.x + pizzaImage.width / 2, drawPosition.y + pizzaImage.height / 2, 0);
 		ofRotate(rotation, 0, 0, 1);

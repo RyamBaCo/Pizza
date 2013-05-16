@@ -99,11 +99,17 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\GlobalValues.cpp" />
+    <ClCompile Include="src\Ingredient.cpp" />
+    <ClCompile Include="src\Participant.cpp" />
     <ClCompile Include="src\PizzaImage.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\pizzaApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GlobalValues.h" />
+    <ClInclude Include="src\Ingredient.h" />
+    <ClInclude Include="src\Participant.h" />
     <ClInclude Include="src\PizzaImage.h" />
     <ClInclude Include="src\pizzaApp.h" />
   </ItemGroup>
