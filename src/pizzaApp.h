@@ -1,12 +1,16 @@
 #pragma once
 
 #include "ofMain.h"
+#include "PizzaImage.h"
 
-class pizzaApp : public ofBaseApp{
+class pizzaApp 
+	: public ofBaseApp
+{
 public:
 	void setup();
 	void update();
 	void draw();
+	void exit();
 		
 	void keyPressed(int key);
 	void keyReleased(int key);
@@ -19,7 +23,7 @@ public:
 	void gotMessage(ofMessage msg);
 
 private:
-	ofImage pizzaBackground;
-	ofImage pizzaSlice;
-	ofImage pizzaFront;
+	PizzaImage* pizzaBackground;
+	PizzaImage* pizzaSlice;
+	PizzaImage* pizzaFront;
 };

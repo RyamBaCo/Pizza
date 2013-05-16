@@ -2,9 +2,32 @@
 
 void pizzaApp::setup()
 {
-	pizzaBackground.loadImage("images/pizzaEmpty.png");
-	pizzaSlice.loadImage("images/pizzaSlice.png");
-	pizzaFront.loadImage("images/pizzaFront.png");
+	ofSetWindowPosition(30, 100);
+
+	pizzaBackground = new PizzaImage("images/pizzaEmpty.png");
+	pizzaSlice = new PizzaImage("images/pizzaSlice.png");
+	pizzaFront = new PizzaImage("images/pizzaFront.png");
+}
+
+void pizzaApp::exit()
+{
+	if(pizzaBackground != 0)
+	{
+		delete pizzaBackground;
+		pizzaBackground = 0;
+	}
+
+	if(pizzaSlice != 0)
+	{
+		delete pizzaSlice;
+		pizzaSlice = 0;
+	}
+
+	if(pizzaFront != 0)
+	{
+		delete pizzaFront;
+		pizzaFront = 0;
+	}
 }
 
 void pizzaApp::update()
@@ -14,16 +37,9 @@ void pizzaApp::update()
 void pizzaApp::draw()
 {
 	ofEnableAlphaBlending();
-	pizzaBackground.draw(0, 0);
-
-	ofPushMatrix();
-		ofTranslate(pizzaSlice.width / 2, pizzaSlice.height / 2, 0);
-		ofRotate(ofGetFrameNum() * .1, 0, 0, 1);
-		ofTranslate(-pizzaSlice.width / 2, -pizzaSlice.height / 2, 0);
-		pizzaSlice.draw(0, 0);
-	ofPopMatrix();
-
-	pizzaFront.draw(0, 0);
+	pizzaBackground->draw();
+	pizzaSlice->draw(ofGetFrameNum());
+	pizzaFront->draw();
 	ofDisableAlphaBlending();
 }
 
