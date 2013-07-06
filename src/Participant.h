@@ -17,12 +17,14 @@ public:
 	bool draw();
 
 private:
-	bool hasIngredients() const;
-	void createIngredients();
+	bool hasIngredient() const;
+	void resetIngredients();
 	void removeIngredients();
 
 private:
 	ofPoint position;
+	// the ingredient which is rendered on player's feet
+	Ingredient* baseIngredient;
 	std::list<Ingredient*> ingredients;
 };
 

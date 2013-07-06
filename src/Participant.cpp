@@ -1,12 +1,20 @@
 #include "Participant.h"
+#include "HelperFunctions.h"
 
 Participant::Participant()
-	:	position(-1, -1)
+	:	position(-1, -1),
+		baseIngredient(0)
 {
 }
 
 Participant::~Participant()
 {
+	if(hasIngredient())
+	{
+		delete baseIngredient;
+		baseIngredient = 0;
+	}
+
 	removeIngredients();
 }
 
@@ -17,11 +25,15 @@ void Participant::setPosition(const ofPoint& position)
 	int distanceToCenter = ofVec2f(this->position.x - GlobalValues::PIZZA_CENTER_POINT.x, this->position.y - GlobalValues::PIZZA_CENTER_POINT.y).length();
 
 	if(		distanceToCenter < GlobalValues::PIZZA_RADIUS
-		&&	!hasIngredients())
-		createIngredients();
+		&&	!hasIngredient())
+		resetIngredients();
 	else if(distanceToCenter > GlobalValues::PIZZA_RADIUS
-		&&	hasIngredients())
+		&&	hasIngredient())
 		removeIngredients();
+
+	// TODO refactor, position is stored twice
+	if(hasIngredient())
+		baseIngredient->setPosition(position);
 }
 
 ofPoint Participant::getPosition() const
@@ -29,14 +41,21 @@ ofPoint Participant::getPosition() const
 	return position;
 }
 
-bool Participant::hasIngredients() const
+bool Participant::hasIngredient() const
 {
-	return ingredients.size() > 0;
+	return baseIngredient != 0;
 }
 
-void Participant::createIngredients()
+void Participant::resetIngredients()
 {
-	ingredients.push_back(new Ingredient(static_cast<GlobalValues::IngredientType>((int)ofRandom(0, 5))));
+	if(hasIngredient())
+	{
+		delete baseIngredient;
+		baseIngredient = 0;
+	}
+
+	baseIngredient = new Ingredient(static_cast<GlobalValues::IngredientType>((int)ofRandom(0, 5)));
+	ingredients.push_back(new Ingredient(baseIngredient->getType(), position));
 }
 
 void Participant::removeIngredients()
@@ -55,13 +74,17 @@ void Participant::update()
 
 bool Participant::draw()
 {
-
 #if _DEBUG
+	HelperFunctions::isPositionInSlice(position) ? ofSetColor(100, 100, 100) : ofSetColor(255, 0, 0);
 	ofCircle(position, GlobalValues::DEBUG_PARTICIPANT_RADIUS);
+	ofSetColor(255, 255, 255);
 #endif
 
+	if(hasIngredient())
+		baseIngredient->draw();
+
 	for(auto iterator = ingredients.begin(); iterator != ingredients.end(); ++iterator)
-		(*iterator)->draw(position);
+		(*iterator)->draw();
 
 	return true;
 }

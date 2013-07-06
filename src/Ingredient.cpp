@@ -1,10 +1,19 @@
 #include "Ingredient.h"
-
+#include "HelperFunctions.h"
 
 Ingredient::Ingredient(const GlobalValues::IngredientType& type)
 	:	type(type),
 		image(new PizzaImage(GlobalValues::getInstance().getValuesForIngredient(type).graphicDestination)),
 		active(false)
+{
+	ingredientSound.loadSound(GlobalValues::getInstance().getValuesForIngredient(type).soundDestination);
+}
+
+Ingredient::Ingredient(const GlobalValues::IngredientType& type, const ofPoint& position)
+	:	type(type),
+		image(new PizzaImage(GlobalValues::getInstance().getValuesForIngredient(type).graphicDestination)),
+		active(false),
+		position(position)
 {
 	ingredientSound.loadSound(GlobalValues::getInstance().getValuesForIngredient(type).soundDestination);
 }
@@ -18,23 +27,23 @@ Ingredient::~Ingredient()
 	}
 }
 
+GlobalValues::IngredientType Ingredient::getType() const
+{
+	return type;
+}
+
+void Ingredient::setPosition(const ofPoint& position)
+{
+	this->position = position;
+}
+
 void Ingredient::update()
 {
-	ofPoint diff = image->getDrawPosition() - GlobalValues::PIZZA_CENTER_POINT;
-	float anglePt = ofRadToDeg(atan2(diff.y, diff.x)) + GlobalValues::SLICE_ANGLE;
-	if (anglePt < 0) anglePt += 360;
-
-	float diffAngle = anglePt - (GlobalValues::getInstance().getCurrentPizzaRotation());
-	if (diffAngle > 180) anglePt -= 360;
-	if (diffAngle < -180) anglePt += 360;
-
-	active = (anglePt >= GlobalValues::getInstance().getCurrentPizzaRotation() && anglePt <= GlobalValues::getInstance().getCurrentPizzaRotation() + GlobalValues::SLICE_ANGLE);
-
-	if(active && !ingredientSound.getIsPlaying())
+	if(!ingredientSound.getIsPlaying() && HelperFunctions::isPositionInSlice(position))
 		ingredientSound.play();
 }
 
-void Ingredient::draw(const ofPoint& position)
+void Ingredient::draw()
 {
 	image->draw(position);
 }
