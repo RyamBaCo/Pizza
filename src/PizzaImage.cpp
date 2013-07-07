@@ -1,6 +1,7 @@
 #include "PizzaImage.h"
 
-PizzaImage::PizzaImage(const std::string& imageFile)
+PizzaImage::PizzaImage(const std::string& imageFile, const DrawDestination& drawDestination)
+	:	drawDestination(drawDestination)
 {
 	pizzaImage.loadImage(imageFile);
 	// by default draw to center
@@ -26,6 +27,9 @@ void PizzaImage::draw()
 void PizzaImage::draw(const ofPoint& position, float rotation /* = 0 */)
 {
 	drawPosition = position;
+	if(drawDestination == CENTER)
+		drawPosition -= ofPoint(pizzaImage.getWidth() / 2, pizzaImage.getHeight() / 2);
+
 	draw(rotation);
 }
 

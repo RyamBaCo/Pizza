@@ -6,22 +6,23 @@ class Ingredient
 {
 public:
 	Ingredient(const GlobalValues::IngredientType& type);
-	Ingredient(const GlobalValues::IngredientType& type, const ofPoint& position);
 	~Ingredient();
 
 	GlobalValues::IngredientType getType() const;
-	void setPosition(const ofPoint& position);
+	ofPoint getPosition() const;
+	bool isReadyForDelete() const;
 
-	void draw();
-	
+	void setPosition(const ofPoint& position);
+	void setReadyForDelete(bool readyForDelete);
+
 	void update();
+	void draw();
 
 private:
 	PizzaImage* image;
 	GlobalValues::IngredientType type;
 	bool active;
+	bool readyForDelete;
 	ofPoint position;
-
-	ofSoundPlayer ingredientSound;
 };
 

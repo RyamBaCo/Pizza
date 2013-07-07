@@ -29,4 +29,10 @@ private:
 	PizzaImage* pizzaBackground;
 	PizzaImage* pizzaSlice;
 	PizzaImage* pizzaFront;
+	PizzaImage* pizzaCenter;
+
+	ofTrueTypeFont highScoreFont;
+	ofTrueTypeFont currentScoreFont;
+
+	unsigned long long lastElapsedMillis;
 };

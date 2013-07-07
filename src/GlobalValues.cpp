@@ -3,6 +3,8 @@
 const ofPoint GlobalValues::PIZZA_CENTER_POINT = ofPoint(1024 / 2, 768 / 2);
 
 GlobalValues::GlobalValues()
+	:	currentScore(0),
+		highScore(0)
 {
 	currentPizzaRotation = 0;
 
@@ -30,8 +32,37 @@ int GlobalValues::getCurrentPizzaRotation() const
 	return currentPizzaRotation;
 }
 
-void GlobalValues::update()
+int GlobalValues::getHighScore() const
+{
+	return highScore;
+}
+
+int GlobalValues::getCurrentScore() const
+{
+	return currentScore;
+}
+
+bool GlobalValues::updatePizzaRotation(int deltaTime)
 {
 	// TODO implement rotation with rotationspeed and stuff
-	currentPizzaRotation = int(ofGetFrameNum() * 0.2f) % 360;
+	currentPizzaRotation += deltaTime * 0.1f;
+	if(currentPizzaRotation > 360)
+	{
+		if(currentScore > highScore)
+		{
+			// TODO play high score animation!
+			highScore = currentScore;
+		}
+		currentScore = 0;
+
+		currentPizzaRotation -= 360;
+		return true;
+	}
+
+	return false;
+}
+
+void GlobalValues::increaseCurrentScore()
+{
+	++currentScore;
 }

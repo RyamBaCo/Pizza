@@ -7,6 +7,13 @@ void pizzaApp::setup()
 	pizzaBackground = new PizzaImage("images/pizzaEmpty.png");
 	pizzaSlice = new PizzaImage("images/pizzaSlice.png");
 	pizzaFront = new PizzaImage("images/pizzaFront.png");
+	pizzaCenter = new PizzaImage("images/pizzaCenter.png");
+
+	ofTrueTypeFont::setGlobalDpi(72);
+	highScoreFont.loadFont("Arcade Book.ttf", 100, true, true);
+	currentScoreFont.loadFont("Arcade Book.ttf", 60, true, true);
+
+	lastElapsedMillis = ofGetElapsedTimeMillis();
 }
 
 void pizzaApp::exit()
@@ -29,6 +36,12 @@ void pizzaApp::exit()
 		pizzaFront = 0;
 	}
 
+	if(pizzaCenter != 0)
+	{
+		delete pizzaCenter;
+		pizzaCenter = 0;
+	}
+
 	for(auto iterator = participants.begin(); iterator != participants.end(); ++iterator)
 		delete (*iterator).second;
 	participants.clear();
@@ -36,10 +49,18 @@ void pizzaApp::exit()
 
 void pizzaApp::update()
 {
-	GlobalValues::getInstance().update();
+	unsigned long long currentElapsedMillis = ofGetElapsedTimeMillis();
+	int deltaTime = currentElapsedMillis - lastElapsedMillis;
+	lastElapsedMillis = currentElapsedMillis;
+
+	bool newRound = GlobalValues::getInstance().updatePizzaRotation(deltaTime);
 
 	for(auto iterator = participants.begin(); iterator != participants.end(); ++iterator)
+	{
+		if(newRound)
+			(*iterator).second->roundComplete();
 		(*iterator).second->update();
+	}
 }
 
 void pizzaApp::draw()
@@ -48,6 +69,10 @@ void pizzaApp::draw()
 	pizzaBackground->draw();
 	pizzaSlice->draw(GlobalValues::getInstance().getCurrentPizzaRotation());
 	pizzaFront->draw();
+	pizzaCenter->draw();
+
+	highScoreFont.drawString(ofToString(GlobalValues::getInstance().getHighScore()), ofGetWindowWidth() / 2 - 15, ofGetWindowHeight() / 2 - 10);
+	currentScoreFont.drawString(ofToString(GlobalValues::getInstance().getCurrentScore()), ofGetWindowWidth() / 2 - 15, ofGetWindowHeight() / 2 + 50);
 
 	for(auto iterator = participants.begin(); iterator != participants.end(); ++iterator)
 		(*iterator).second->draw();

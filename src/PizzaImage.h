@@ -5,7 +5,13 @@
 class PizzaImage
 {
 public:
-	PizzaImage(const std::string& imageFile);
+	enum DrawDestination
+	{
+		LEFT_EDGE,
+		CENTER
+	};
+
+	PizzaImage(const std::string& imageFile, const DrawDestination& drawDestination = LEFT_EDGE);
 	~PizzaImage();
 
 	ofPoint getDrawPosition() const;
@@ -17,4 +23,5 @@ public:
 private:
 	ofImage pizzaImage;
 	ofPoint drawPosition;
+	DrawDestination drawDestination;
 };

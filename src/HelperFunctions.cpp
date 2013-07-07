@@ -11,10 +11,8 @@ HelperFunctions::~HelperFunctions(void)
 
 bool HelperFunctions::isPositionInSlice(const ofPoint& position)
 {
-	float angle1 = GlobalValues::getInstance().getCurrentPizzaRotation();
-	float angle2 = GlobalValues::getInstance().getCurrentPizzaRotation() + GlobalValues::SLICE_ANGLE;
 	ofPoint diff = position - GlobalValues::PIZZA_CENTER_POINT;
-	if(diff.length() > GlobalValues::PIZZA_RADIUS)
+	if(diff.length() > GlobalValues::PIZZA_RADIUS || diff.length() < GlobalValues::PIZZA_INNER_RADIUS)
 		return false;
 
 	float anglePt = ofRadToDeg(atan2(diff.y, diff.x));
@@ -28,6 +26,6 @@ bool HelperFunctions::isPositionInSlice(const ofPoint& position)
 		anglePt += 360;
 
 	return 
-		anglePt >= angle1 && 
-		anglePt <= angle2;
+		anglePt >= GlobalValues::getInstance().getCurrentPizzaRotation() && 
+		anglePt <= GlobalValues::getInstance().getCurrentPizzaRotation() + GlobalValues::SLICE_ANGLE;
 }

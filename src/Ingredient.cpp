@@ -3,19 +3,10 @@
 
 Ingredient::Ingredient(const GlobalValues::IngredientType& type)
 	:	type(type),
-		image(new PizzaImage(GlobalValues::getInstance().getValuesForIngredient(type).graphicDestination)),
-		active(false)
-{
-	ingredientSound.loadSound(GlobalValues::getInstance().getValuesForIngredient(type).soundDestination);
-}
-
-Ingredient::Ingredient(const GlobalValues::IngredientType& type, const ofPoint& position)
-	:	type(type),
-		image(new PizzaImage(GlobalValues::getInstance().getValuesForIngredient(type).graphicDestination)),
+		image(new PizzaImage(GlobalValues::getInstance().getValuesForIngredient(type).graphicDestination, PizzaImage::CENTER)),
 		active(false),
-		position(position)
+		readyForDelete(false)
 {
-	ingredientSound.loadSound(GlobalValues::getInstance().getValuesForIngredient(type).soundDestination);
 }
 
 Ingredient::~Ingredient()
@@ -32,6 +23,21 @@ GlobalValues::IngredientType Ingredient::getType() const
 	return type;
 }
 
+ofPoint Ingredient::getPosition() const
+{
+	return position;
+}
+
+bool Ingredient::isReadyForDelete() const
+{
+	return readyForDelete;
+}
+
+void Ingredient::setReadyForDelete(bool readyForDelete)
+{
+	this->readyForDelete = readyForDelete;
+}
+
 void Ingredient::setPosition(const ofPoint& position)
 {
 	this->position = position;
@@ -39,8 +45,12 @@ void Ingredient::setPosition(const ofPoint& position)
 
 void Ingredient::update()
 {
-	if(!ingredientSound.getIsPlaying() && HelperFunctions::isPositionInSlice(position))
-		ingredientSound.play();
+	if(HelperFunctions::isPositionInSlice(position))
+	{
+		GlobalValues::getInstance().getValuesForIngredient(type).playSound();
+		GlobalValues::getInstance().increaseCurrentScore();
+		readyForDelete = true;
+	}
 }
 
 void Ingredient::draw()
