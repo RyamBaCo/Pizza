@@ -44,6 +44,12 @@ int GlobalValues::getCurrentScore() const
 	return currentScore;
 }
 
+void GlobalValues::initSliceAnimations()
+{
+	for(int i = 0; i < 6; ++i)
+		AnimationManager::addAnimation(new SpriteAnimation("fire_1_40", 40, GlobalValues::ANIMATION_FIRE_SPEED, GlobalValues::PIZZA_CENTER_POINT, 0, true));
+}
+
 bool GlobalValues::updatePizzaRotation(int deltaTime)
 {
 	// TODO implement rotation with rotationspeed and stuff
@@ -59,6 +65,21 @@ bool GlobalValues::updatePizzaRotation(int deltaTime)
 
 		currentPizzaRotation -= 360;
 		return true;
+	}
+
+	for(int i = 0; i < 3; ++i)
+	{
+		int currentDistance = 140 + 170 * i / 3.0f;
+		((SpriteAnimation*)AnimationManager::getAnimationAt(i))->setPosition(GlobalValues::PIZZA_CENTER_POINT + ofPoint(currentDistance * cos(ofDegToRad(currentPizzaRotation)), currentDistance * sin(ofDegToRad(currentPizzaRotation))));
+		((SpriteAnimation*)AnimationManager::getAnimationAt(i))->setRotation(currentPizzaRotation);
+	}
+
+	for(int i = 3; i < 6; ++i)
+	{
+		int currentDistance = 140 + 150 * (i - 3) / 3.0f;
+		float currentRotation = currentPizzaRotation + 20 + 15 * (i - 3) / 3.0f;
+		((SpriteAnimation*)AnimationManager::getAnimationAt(i))->setPosition(GlobalValues::PIZZA_CENTER_POINT + ofPoint(currentDistance * cos(ofDegToRad(currentRotation)), currentDistance * sin(ofDegToRad(currentRotation))));
+		((SpriteAnimation*)AnimationManager::getAnimationAt(i))->setRotation(currentPizzaRotation);
 	}
 
 	return false;

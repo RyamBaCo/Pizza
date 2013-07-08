@@ -123,6 +123,9 @@ void Participant::removeIngredients()
 
 void Participant::roundComplete()
 {
+	if(!hasIngredient())
+		return;
+
 	if(!punishedInRound)
 	{
 		++availableSlots;

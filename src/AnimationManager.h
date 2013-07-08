@@ -8,6 +8,8 @@ public:
 	AnimationManager();
 	~AnimationManager();
 
+	static BaseAnimation* getAnimationAt(int index);
+
 	static void addAnimation(BaseAnimation* animation);
 	static void update(int deltaTime);
 	static void draw();

@@ -10,6 +10,20 @@ AnimationManager::~AnimationManager()
 {
 }
 
+BaseAnimation* AnimationManager::getAnimationAt(int index)
+{
+	int currentIndex = 0;
+
+	for(auto iterator = animations.begin(); iterator != animations.end(); ++iterator)
+	{
+		if(currentIndex == index)
+			return *iterator;
+		++currentIndex;
+	}
+
+	return 0;
+}
+
 void AnimationManager::addAnimation(BaseAnimation* animation)
 {
 	animations.push_back(animation);

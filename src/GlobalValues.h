@@ -31,6 +31,7 @@ public:
 	static const int ANIMATION_NEW_HIGHSCORE_SPEED = 50;
 	static const int ANIMATION_LOSE_SLOT_SPEED = 50;
 	static const int ANIMATION_GAIN_SLOT_SPEED = 100;
+	static const int ANIMATION_FIRE_SPEED = 50;
 
 	#pragma region IngredientTypes
 
@@ -74,6 +75,7 @@ public:
 	int getHighScore() const;
 	int getCurrentScore() const;
 	void increaseCurrentScore();
+	void initSliceAnimations();
 
 	// returns true if a new round has been started
 	bool updatePizzaRotation(int deltaTime);

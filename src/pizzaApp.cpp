@@ -14,8 +14,10 @@ void pizzaApp::setup()
 	ofTrueTypeFont::setGlobalDpi(72);
 	highScoreFont.loadFont("Arcade Book.ttf", 100, true, true);
 	currentScoreFont.loadFont("Arcade Book.ttf", 60, true, true);
+	GlobalValues::getInstance().initSliceAnimations();
 
 	lastElapsedMillis = ofGetElapsedTimeMillis();
+	
 }
 
 void pizzaApp::exit()
@@ -72,7 +74,7 @@ void pizzaApp::update()
 void pizzaApp::draw()
 {
 	pizzaBackground->draw();
-	pizzaSlice->draw(GlobalValues::getInstance().getCurrentPizzaRotation());
+//	pizzaSlice->draw(GlobalValues::getInstance().getCurrentPizzaRotation());
 	pizzaFront->draw();
 	pizzaCenter->draw();
 

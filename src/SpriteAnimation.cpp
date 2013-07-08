@@ -1,11 +1,12 @@
 #include "SpriteAnimation.h"
 
-SpriteAnimation::SpriteAnimation(const std::string& folderName, const int numberOfFrames, const int timePerFrame, const ofPoint& position, const float rotation)
+SpriteAnimation::SpriteAnimation(const std::string& folderName, const int numberOfFrames, const int timePerFrame, const ofPoint& position, const float rotation, bool loop)
 	:	BaseAnimation(),
 		numberOfFrames(numberOfFrames),
 		timePerFrame(timePerFrame),
 		currentFrame(0),
-		passedTime(0)
+		passedTime(0),
+		loop(loop)
 {
 	for(int i = 0; i < numberOfFrames; ++i)
 	{
@@ -26,6 +27,18 @@ SpriteAnimation::~SpriteAnimation(void)
 	frames.clear();
 }
 
+void SpriteAnimation::setPosition(const ofPoint& position)
+{
+	for(int i = 0; i < numberOfFrames; ++i)
+		frames[i]->setDrawPosition(position);
+}
+
+void SpriteAnimation::setRotation(const float rotation)
+{
+	for(int i = 0; i < numberOfFrames; ++i)
+		frames[i]->setDrawRotation(rotation);
+}
+
 void SpriteAnimation::update(int deltaTime)
 {
 	passedTime += deltaTime;
@@ -34,7 +47,7 @@ void SpriteAnimation::update(int deltaTime)
 	if(currentFrame >= numberOfFrames)
 	{
 		currentFrame = numberOfFrames - 1;
-		readyForDelete = true;
+		loop ? passedTime = 0 : readyForDelete = true;
 	}
 }
 
