@@ -1,4 +1,6 @@
 #include "GlobalValues.h"
+#include "AnimationManager.h"
+#include "SpriteAnimation.h"
 
 const ofPoint GlobalValues::PIZZA_CENTER_POINT = ofPoint(1024 / 2, 768 / 2);
 
@@ -50,7 +52,7 @@ bool GlobalValues::updatePizzaRotation(int deltaTime)
 	{
 		if(currentScore > highScore)
 		{
-			// TODO play high score animation!
+			AnimationManager::addAnimation(new SpriteAnimation("fx6_eaterFire", 20, GlobalValues::ANIMATION_NEW_HIGHSCORE_SPEED, ofPoint(ofGetScreenWidth() / 2 - 410 + 168 / 2, ofGetWindowHeight() / 2 - 140 + 148 / 2), 0));
 			highScore = currentScore;
 		}
 		currentScore = 0;
@@ -65,4 +67,5 @@ bool GlobalValues::updatePizzaRotation(int deltaTime)
 void GlobalValues::increaseCurrentScore()
 {
 	++currentScore;
+	AnimationManager::addAnimation(new SpriteAnimation("fx5_fire_scissors", 13, GlobalValues::ANIMATION_INCREASE_SCORE_SPEED, ofPoint(ofGetScreenWidth() / 2 - 410 + 133 / 2, ofGetWindowHeight() / 2 - 75 + 169 / 2), 0));
 }

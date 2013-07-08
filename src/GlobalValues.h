@@ -19,11 +19,18 @@ public:
 	static const int SLICE_ANGLE = 45;
 	static const int MAX_POINTS_FOR_DIRECTION = 50;
 	static const int INGREDIENT_DROP_RANGE = 200;
-	static const int INGREDIENTS_FADEOUT_SPEED = 500;
 	static const int HUD_DISTANCE = 50;
 	static const int MIN_FREE_SLOTS = 2;
 	static const int START_FREE_SLOTS = 3;
 	static const int MAX_FREE_SLOTS = 6;
+
+	static const int ANIMATION_INGREDIENTS_FADEOUT_SPEED = 500;
+	static const int ANIMATION_INGREDIENTS_EXPLOSION_SPEED = 50;
+	static const int ANIMATION_INGREDIENTS_SPAWN_SPEED = 50;
+	static const int ANIMATION_INCREASE_SCORE_SPEED = 50;
+	static const int ANIMATION_NEW_HIGHSCORE_SPEED = 50;
+	static const int ANIMATION_LOSE_SLOT_SPEED = 50;
+	static const int ANIMATION_GAIN_SLOT_SPEED = 100;
 
 	#pragma region IngredientTypes
 

@@ -7,6 +7,12 @@ BaseAnimation::BaseAnimation(const PizzaImage& pizzaImage)
 {
 }
 
+BaseAnimation::BaseAnimation()
+	:	pizzaImage(0),
+		readyForDelete(false)
+{
+}
+
 BaseAnimation::~BaseAnimation()
 {
 	if(pizzaImage != 0)
@@ -19,9 +25,4 @@ BaseAnimation::~BaseAnimation()
 bool BaseAnimation::isReadyForDelete() const
 {
 	return readyForDelete;
-}
-
-void BaseAnimation::draw()
-{
-	pizzaImage->draw();
 }

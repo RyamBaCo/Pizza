@@ -19,6 +19,7 @@ public:
 	ofPoint getDrawPosition() const;
 	float getDrawRotation() const;
 	void setDrawRotation(const float drawRotation);
+	void setDrawPosition(const ofPoint& drawPosition);
 
 	void draw();
 	void draw(float rotation);

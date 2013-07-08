@@ -35,6 +35,13 @@ float PizzaImage::getDrawRotation() const
 	return drawRotation;
 }
 
+void PizzaImage::setDrawPosition(const ofPoint& drawPosition)
+{
+	this->drawPosition = drawPosition;
+	if(drawDestination == CENTER)
+		this->drawPosition -= ofPoint(pizzaImage.getWidth() / 2, pizzaImage.getHeight() / 2);
+}
+
 void PizzaImage::setDrawRotation(const float drawRotation)
 {
 	this->drawRotation = drawRotation;
@@ -47,10 +54,7 @@ void PizzaImage::draw()
 
 void PizzaImage::draw(const ofPoint& position, float rotation /* = 0 */)
 {
-	drawPosition = position;
-	if(drawDestination == CENTER)
-		drawPosition -= ofPoint(pizzaImage.getWidth() / 2, pizzaImage.getHeight() / 2);
-
+	setDrawPosition(position);
 	draw(rotation);
 }
 

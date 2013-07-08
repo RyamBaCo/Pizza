@@ -3,6 +3,13 @@
 
 ParticipantHUD::ParticipantHUD()
 {
+	hudPositions[5] = ofPoint(-80, -60);
+	hudPositions[4] = ofPoint(-60, -25);
+	hudPositions[3] = ofPoint(-22, -5);
+	hudPositions[2] = ofPoint(22, -5);
+	hudPositions[1] = ofPoint(60, -25);
+	hudPositions[0] = ofPoint(80, -60);
+
 	std::map<int, std::string> typeMap;
 	typeMap[HUDImageType::FREE] = "f";
 	typeMap[HUDImageType::USED] = "u";
@@ -28,4 +35,9 @@ void ParticipantHUD::draw(const ofPoint& position, int rotation, int freeSlots, 
 {
 	for(int i = 0; i < GlobalValues::MAX_FREE_SLOTS; ++i)
 		hudImages[i][i < availableSlots ? (i < freeSlots ? HUDImageType::FREE : HUDImageType::USED) : HUDImageType::INACTIVE]->draw(position, rotation);
+}
+
+ofPoint ParticipantHUD::getHUDPosition(int index)
+{
+	return hudPositions[index];
 }

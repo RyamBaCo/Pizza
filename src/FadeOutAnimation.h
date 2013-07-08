@@ -4,7 +4,7 @@
 class FadeOutAnimation : public BaseAnimation
 {
 public:
-	FadeOutAnimation(const PizzaImage& pizzaImage, int fadeOutSpeed);
+	FadeOutAnimation(const PizzaImage& pizzaImage, const int fadeOutSpeed);
 	~FadeOutAnimation();
 
 	void update(int deltaTime);

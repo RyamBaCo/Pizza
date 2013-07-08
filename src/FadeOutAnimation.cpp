@@ -1,7 +1,7 @@
 #include "FadeOutAnimation.h"
 
 
-FadeOutAnimation::FadeOutAnimation(const PizzaImage& pizzaImage, int fadeOutSpeed)
+FadeOutAnimation::FadeOutAnimation(const PizzaImage& pizzaImage, const int fadeOutSpeed)
 	:	BaseAnimation(pizzaImage),
 		fadeOutSpeed(fadeOutSpeed),
 		currentTransparency(255),

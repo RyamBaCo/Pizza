@@ -5,6 +5,7 @@ class BaseAnimation
 {
 public:
 	BaseAnimation(const PizzaImage& pizzaImage);
+	BaseAnimation();
 	~BaseAnimation();
 
 	bool isReadyForDelete() const;

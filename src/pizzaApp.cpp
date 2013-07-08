@@ -113,7 +113,7 @@ void pizzaApp::mouseDragged(int x, int y, int button)
 	for(auto iterator = participants.begin(); iterator != participants.end(); ++iterator)
 	{
 		Participant* participant = (*iterator).second;
-		if(ofVec2f(participant->getPosition().x - x, participant->getPosition().y - y).length() < GlobalValues::DEBUG_PARTICIPANT_RADIUS)
+		if(ofVec2f(participant->getPosition().x - x, participant->getPosition().y - y).length() < GlobalValues::DEBUG_PARTICIPANT_RADIUS * 2)
 		{
 			participant->setPosition(ofPoint(x, y));
 			return;

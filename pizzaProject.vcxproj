@@ -110,6 +110,7 @@
     <ClCompile Include="src\PizzaImage.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\pizzaApp.cpp" />
+    <ClCompile Include="src\SpriteAnimation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AnimationManager.h" />
@@ -122,6 +123,7 @@
     <ClInclude Include="src\ParticipantHUD.h" />
     <ClInclude Include="src\PizzaImage.h" />
     <ClInclude Include="src\pizzaApp.h" />
+    <ClInclude Include="src\SpriteAnimation.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\libs\openFrameworksCompiled\project\vs2010\openframeworksLib.vcxproj">

@@ -16,9 +16,12 @@ public:
 	ParticipantHUD();
 	~ParticipantHUD();
 
+	ofPoint getHUDPosition(int index);
+
 	void draw(const ofPoint& position, int rotation, int freeSlots, int availableSlots);
 
 private:
 	PizzaImage* hudImages[GlobalValues::MAX_FREE_SLOTS][HUDImageType::LAST];
+	ofPoint hudPositions[GlobalValues::MAX_FREE_SLOTS];
 };
 

@@ -2,6 +2,7 @@
 #include "HelperFunctions.h"
 #include "AnimationManager.h"
 #include "FadeOutAnimation.h"
+#include "SpriteAnimation.h"
 
 Participant::Participant()
 	:	position(-1, -1),
@@ -101,6 +102,7 @@ void Participant::resetIngredients()
 
 void Participant::dropIngredient()
 {
+	AnimationManager::addAnimation(new SpriteAnimation("fx7_energyBall", 32, GlobalValues::ANIMATION_INGREDIENTS_SPAWN_SPEED, position - ofPoint(45 - 80 / 2, 40 - 67 / 2), 0));
 	baseIngredient->setRotation(ofRandom(0, 360));
 	ingredients.push_back(new Ingredient(baseIngredient->getType()));
 	ingredients.back()->setPosition(position);
@@ -126,6 +128,19 @@ void Participant::roundComplete()
 		++availableSlots;
 		if(availableSlots > GlobalValues::MAX_FREE_SLOTS)
 			availableSlots = GlobalValues::MAX_FREE_SLOTS;
+		else
+			for(int i = 0; i < availableSlots; ++i)
+			{
+				ofPoint frontVector(frontDirection * 80);
+				ofPoint hudVector = hud->getHUDPosition(i) + ofPoint(0, 70);
+				float originalAngle = atan2(frontDirection.y, frontDirection.x);
+				float angle = originalAngle + 3.14159f / 2;
+				ofPoint finalPosition = position - 
+					(frontVector + ofPoint(hudVector.x * cos(angle) - hudVector.y * sin(angle), hudVector.x * sin(angle) + hudVector.y * cos(angle)))
+					+ 160 * ofPoint(cos(atan2(frontDirection.y, frontDirection.x)), sin(atan2(frontDirection.y, frontDirection.x)));
+
+				AnimationManager::addAnimation(new SpriteAnimation("fx1_blue_topEffect", 22, GlobalValues::ANIMATION_GAIN_SLOT_SPEED, finalPosition, ofRadToDeg(angle)));
+			}
 	}
 
 	freeSlots = availableSlots;
@@ -137,10 +152,23 @@ void Participant::update()
 	if(!punished && HelperFunctions::isPositionInSlice(position))
 	{
 		punished = true;
-		// TODO play punish animation
+
 		--availableSlots;
 		if(availableSlots < GlobalValues::MIN_FREE_SLOTS)
 			availableSlots = GlobalValues::MIN_FREE_SLOTS;
+		else
+			for(int i = availableSlots; i < 6; ++i)
+			{
+				ofPoint frontVector(frontDirection * 80);
+				ofPoint hudVector = hud->getHUDPosition(i);
+				float originalAngle = atan2(frontDirection.y, frontDirection.x);
+				float angle = originalAngle + 3.14159f / 2;
+				ofPoint finalPosition = position - 
+					(frontVector + ofPoint(hudVector.x * cos(angle) - hudVector.y * sin(angle), hudVector.x * sin(angle) + hudVector.y * cos(angle)))
+					+ 160 * ofPoint(cos(atan2(frontDirection.y, frontDirection.x)), sin(atan2(frontDirection.y, frontDirection.x)));
+
+				AnimationManager::addAnimation(new SpriteAnimation("fx10_blackExplosion", 19, GlobalValues::ANIMATION_LOSE_SLOT_SPEED, finalPosition, ofRadToDeg(angle)));
+			}
 		if(availableSlots > freeSlots)
 			freeSlots = availableSlots;
 
@@ -153,10 +181,10 @@ void Participant::update()
 	// TODO put this in observer pattern or something
 	for(auto iterator = ingredients.begin(); iterator != ingredients.end();)
 	{
-		// TODO add particle stuff here
 		if((*iterator)->isReadyForDelete())
 		{
-			AnimationManager::addAnimation(new FadeOutAnimation(*((*iterator)->getPizzaImage()), GlobalValues::INGREDIENTS_FADEOUT_SPEED));
+			AnimationManager::addAnimation(new FadeOutAnimation(*((*iterator)->getPizzaImage()), GlobalValues::ANIMATION_INGREDIENTS_FADEOUT_SPEED));
+			AnimationManager::addAnimation(new SpriteAnimation("fx3_fireball", 20, GlobalValues::ANIMATION_INGREDIENTS_EXPLOSION_SPEED, (*iterator)->getPosition(), 0));
 			delete *iterator;
 			iterator = ingredients.erase(iterator);
 		}
