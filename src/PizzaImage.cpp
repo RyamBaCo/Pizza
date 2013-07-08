@@ -1,13 +1,24 @@
 #include "PizzaImage.h"
 
-PizzaImage::PizzaImage(const std::string& imageFile, const DrawDestination& drawDestination)
-	:	drawDestination(drawDestination)
+PizzaImage::PizzaImage(const std::string& imageFile, const DrawDestination& drawDestination, const float drawRotation)
+	:	imageFile(imageFile),
+		drawDestination(drawDestination),
+		drawRotation(drawRotation)
 {
 	pizzaImage.loadImage(imageFile);
 	// by default draw to center
 	drawPosition = ofPoint(
 		(ofGetWindowWidth() - pizzaImage.width) / 2,
 		(ofGetWindowHeight() - pizzaImage.height) / 2);
+}
+
+PizzaImage::PizzaImage(const PizzaImage& other)
+{
+	imageFile = other.imageFile;
+	pizzaImage.loadImage(imageFile);
+	drawPosition = other.drawPosition;
+	drawRotation = other.drawRotation;
+	drawDestination = other.drawDestination;
 }
 
 PizzaImage::~PizzaImage()
@@ -19,9 +30,19 @@ ofPoint PizzaImage::getDrawPosition() const
 	return drawPosition;
 }
 
+float PizzaImage::getDrawRotation() const
+{
+	return drawRotation;
+}
+
+void PizzaImage::setDrawRotation(const float drawRotation)
+{
+	this->drawRotation = drawRotation;
+}
+
 void PizzaImage::draw()
 {
-	pizzaImage.draw(drawPosition);
+	draw(drawRotation);
 }
 
 void PizzaImage::draw(const ofPoint& position, float rotation /* = 0 */)
@@ -40,6 +61,6 @@ void PizzaImage::draw(float rotation)
 		ofTranslate(drawPosition.x + pizzaImage.width / 2, drawPosition.y + pizzaImage.height / 2, 0);
 		ofRotate(rotation, 0, 0, 1);
 		ofTranslate(-(drawPosition.x + pizzaImage.width / 2), -(drawPosition.y + pizzaImage.height / 2), 0);
-		draw();
+		pizzaImage.draw(drawPosition);
 	ofPopMatrix();
 }

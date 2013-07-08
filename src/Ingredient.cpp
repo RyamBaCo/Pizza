@@ -33,6 +33,16 @@ bool Ingredient::isReadyForDelete() const
 	return readyForDelete;
 }
 
+float Ingredient::getRotation() const
+{
+	return image->getDrawRotation();
+}
+
+PizzaImage* Ingredient::getPizzaImage() const
+{
+	return image;
+}
+
 void Ingredient::setReadyForDelete(bool readyForDelete)
 {
 	this->readyForDelete = readyForDelete;
@@ -41,6 +51,11 @@ void Ingredient::setReadyForDelete(bool readyForDelete)
 void Ingredient::setPosition(const ofPoint& position)
 {
 	this->position = position;
+}
+
+void Ingredient::setRotation(float rotation)
+{
+	image->setDrawRotation(rotation);
 }
 
 void Ingredient::update()
@@ -55,5 +70,5 @@ void Ingredient::update()
 
 void Ingredient::draw()
 {
-	image->draw(position);
+	image->draw(position, image->getDrawRotation());
 }

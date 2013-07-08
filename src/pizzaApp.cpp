@@ -1,7 +1,9 @@
 #include "pizzaApp.h"
+#include "AnimationManager.h"
 
 void pizzaApp::setup()
 {
+	ofEnableAlphaBlending();
 	ofSetWindowPosition(30, 100);
 
 	pizzaBackground = new PizzaImage("images/pizzaEmpty.png");
@@ -45,6 +47,8 @@ void pizzaApp::exit()
 	for(auto iterator = participants.begin(); iterator != participants.end(); ++iterator)
 		delete (*iterator).second;
 	participants.clear();
+
+	AnimationManager::cleanUp();
 }
 
 void pizzaApp::update()
@@ -61,11 +65,12 @@ void pizzaApp::update()
 			(*iterator).second->roundComplete();
 		(*iterator).second->update();
 	}
+
+	AnimationManager::update(deltaTime);
 }
 
 void pizzaApp::draw()
 {
-	ofEnableAlphaBlending();
 	pizzaBackground->draw();
 	pizzaSlice->draw(GlobalValues::getInstance().getCurrentPizzaRotation());
 	pizzaFront->draw();
@@ -77,7 +82,7 @@ void pizzaApp::draw()
 	for(auto iterator = participants.begin(); iterator != participants.end(); ++iterator)
 		(*iterator).second->draw();
 
-	ofDisableAlphaBlending();
+	AnimationManager::draw();
 }
 
 void pizzaApp::keyPressed(int key)

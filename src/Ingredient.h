@@ -14,6 +14,9 @@ public:
 
 	void setPosition(const ofPoint& position);
 	void setReadyForDelete(bool readyForDelete);
+	void setRotation(float rotation);
+	float getRotation() const;
+	PizzaImage* getPizzaImage() const;
 
 	void update();
 	void draw();

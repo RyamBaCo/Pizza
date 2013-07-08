@@ -19,6 +19,7 @@ public:
 	static const int SLICE_ANGLE = 45;
 	static const int MAX_POINTS_FOR_DIRECTION = 50;
 	static const int INGREDIENT_DROP_RANGE = 200;
+	static const int INGREDIENTS_FADEOUT_SPEED = 500;
 	static const int HUD_DISTANCE = 50;
 	static const int MIN_FREE_SLOTS = 2;
 	static const int START_FREE_SLOTS = 3;

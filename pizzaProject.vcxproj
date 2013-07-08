@@ -99,6 +99,9 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\AnimationManager.cpp" />
+    <ClCompile Include="src\BaseAnimation.cpp" />
+    <ClCompile Include="src\FadeOutAnimation.cpp" />
     <ClCompile Include="src\GlobalValues.cpp" />
     <ClCompile Include="src\HelperFunctions.cpp" />
     <ClCompile Include="src\Ingredient.cpp" />
@@ -109,6 +112,9 @@
     <ClCompile Include="src\pizzaApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AnimationManager.h" />
+    <ClInclude Include="src\BaseAnimation.h" />
+    <ClInclude Include="src\FadeOutAnimation.h" />
     <ClInclude Include="src\GlobalValues.h" />
     <ClInclude Include="src\HelperFunctions.h" />
     <ClInclude Include="src\Ingredient.h" />

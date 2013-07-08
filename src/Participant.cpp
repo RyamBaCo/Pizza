@@ -1,5 +1,7 @@
 #include "Participant.h"
 #include "HelperFunctions.h"
+#include "AnimationManager.h"
+#include "FadeOutAnimation.h"
 
 Participant::Participant()
 	:	position(-1, -1),
@@ -99,8 +101,10 @@ void Participant::resetIngredients()
 
 void Participant::dropIngredient()
 {
+	baseIngredient->setRotation(ofRandom(0, 360));
 	ingredients.push_back(new Ingredient(baseIngredient->getType()));
 	ingredients.back()->setPosition(position);
+	ingredients.back()->setRotation(baseIngredient->getRotation());
 }
 
 void Participant::removeIngredients()
@@ -149,9 +153,10 @@ void Participant::update()
 	// TODO put this in observer pattern or something
 	for(auto iterator = ingredients.begin(); iterator != ingredients.end();)
 	{
-		// TODO add animation stuff here
+		// TODO add particle stuff here
 		if((*iterator)->isReadyForDelete())
 		{
+			AnimationManager::addAnimation(new FadeOutAnimation(*((*iterator)->getPizzaImage()), GlobalValues::INGREDIENTS_FADEOUT_SPEED));
 			delete *iterator;
 			iterator = ingredients.erase(iterator);
 		}
