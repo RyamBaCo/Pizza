@@ -13,16 +13,24 @@ const std::string GlobalValues::ANIMATION_LOSE_SLOT = "fx10_blackExplosion";
 
 GlobalValues::GlobalValues()
 	:	currentScore(0),
-		highScore(0)
+		lastScore(0),
+		highScore(0),
+		rotatingClockwise(true),
+		rotationForChange(ofRandom(GlobalValues::PIZZA_MIN_ANGLE_FOR_ROTATION_CHANGE, GlobalValues::PIZZA_MAX_ANGLE_FOR_ROTATION_CHANGE)),
+		absoluteRotation(0),
+		currentPizzaRotation(0)
 {
-	currentPizzaRotation = 0;
-
 	// TODO read all the mapping values from XML or JSON
 	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(CHEESE, IngredientValues("images/ingredients/cheese.png", "sounds/Cabasa.wav")));
 	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(EGG, IngredientValues("images/ingredients/egg.png", "sounds/Clap.wav")));
 	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(PAPRIKA, IngredientValues("images/ingredients/paprika.png", "sounds/Claves.wav")));
 	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(PINEAPPLE, IngredientValues("images/ingredients/pineapple.png", "sounds/Cowbell.wav")));
 	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(TOMATO, IngredientValues("images/ingredients/tomato.png", "sounds/Crash.wav")));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(BACON, IngredientValues("images/ingredients/bacon.png", "sounds/Crash.wav")));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(CORN, IngredientValues("images/ingredients/corn.png", "sounds/Crash.wav")));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(MUSHROOM, IngredientValues("images/ingredients/mushroom.png", "sounds/Crash.wav")));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(ONIONS, IngredientValues("images/ingredients/onions.png", "sounds/Crash.wav")));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(SALAMI, IngredientValues("images/ingredients/salami.png", "sounds/Crash.wav")));
 
 	std::map<std::string, int> numberOfFrames;
 	numberOfFrames[GlobalValues::ANIMATION_FIRE] = 40;
@@ -78,17 +86,53 @@ void GlobalValues::initSliceAnimations()
 bool GlobalValues::updatePizzaRotation(int deltaTime)
 {
 	// TODO implement rotation with rotationspeed and stuff
-	currentPizzaRotation += deltaTime * 0.1f;
-	if(currentPizzaRotation > 360)
+	float rotationChange = deltaTime * GlobalValues::PIZZA_BASE_ROTATION_SPEED / 1000.0f + GlobalValues::PIZZA_ROTATION_SPEED_PER_SCORE / 1000.0f * std::max(lastScore, currentScore);
+
+	if(GlobalValues::PIZZA_MIN_ANGLE_FOR_ROTATION_CHANGE > 0)
+	{
+		absoluteRotation += rotationChange;
+
+		if(absoluteRotation > rotationForChange)
+		{
+			rotatingClockwise = !rotatingClockwise;
+			absoluteRotation = 0;
+			rotationForChange = ofRandom(GlobalValues::PIZZA_MIN_ANGLE_FOR_ROTATION_CHANGE, GlobalValues::PIZZA_MAX_ANGLE_FOR_ROTATION_CHANGE);
+		}
+	}
+	
+	bool newRound = false;
+
+	if(rotatingClockwise)
+	{
+		currentPizzaRotation += rotationChange;
+		if(currentPizzaRotation > 360)
+		{
+			currentPizzaRotation -= 360;
+			newRound = true;
+		}
+	}
+
+	else
+	{
+		currentPizzaRotation -= rotationChange;
+		if(currentPizzaRotation < 0)
+		{
+			currentPizzaRotation += 360;
+			newRound = true;
+		}
+	}
+	
+	if(newRound)	
 	{
 		if(currentScore > highScore)
 		{
 			AnimationManager::addAnimation(new SpriteAnimation(GlobalValues::ANIMATION_NEW_HIGHSCORE, GlobalValues::ANIMATION_NEW_HIGHSCORE_SPEED, ofPoint(ofGetScreenWidth() / 2 - 410 + 168 / 2, ofGetWindowHeight() / 2 - 140 + 148 / 2), 0));
 			highScore = currentScore;
 		}
+		lastScore = currentScore;
 		currentScore = 0;
 
-		currentPizzaRotation -= 360;
+		
 		return true;
 	}
 

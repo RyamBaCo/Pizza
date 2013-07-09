@@ -3,6 +3,7 @@
 #include "AnimationManager.h"
 #include "FadeOutAnimation.h"
 #include "SpriteAnimation.h"
+#include "GlobalValues.h"
 
 Participant::Participant()
 	:	position(-1, -1),
@@ -29,6 +30,7 @@ Participant::~Participant()
 
 	for(auto iterator = ingredients.begin(); iterator != ingredients.end(); ++iterator)
 		delete *iterator;
+
 	ingredients.clear();
 }
 
@@ -93,7 +95,7 @@ void Participant::resetIngredients()
 		baseIngredient = 0;
 	}
 
-	baseIngredient = new Ingredient(static_cast<GlobalValues::IngredientType>((int)ofRandom(0, 5)));
+	baseIngredient = new Ingredient(static_cast<GlobalValues::IngredientType>((int)ofRandom(0, GlobalValues::IngredientType::LAST - 1)));
 	dropIngredient();
 
 	freeSlots = GlobalValues::START_FREE_SLOTS;
@@ -132,22 +134,27 @@ void Participant::roundComplete()
 		if(availableSlots > GlobalValues::MAX_FREE_SLOTS)
 			availableSlots = GlobalValues::MAX_FREE_SLOTS;
 		else
-			for(int i = 0; i < availableSlots; ++i)
-			{
-				ofPoint frontVector(frontDirection * 80);
-				ofPoint hudVector = hud->getHUDPosition(i) + ofPoint(0, 70);
-				float originalAngle = atan2(frontDirection.y, frontDirection.x);
-				float angle = originalAngle + 3.14159f / 2;
-				ofPoint finalPosition = position - 
-					(frontVector + ofPoint(hudVector.x * cos(angle) - hudVector.y * sin(angle), hudVector.x * sin(angle) + hudVector.y * cos(angle)))
-					+ 160 * ofPoint(cos(atan2(frontDirection.y, frontDirection.x)), sin(atan2(frontDirection.y, frontDirection.x)));
-
-				AnimationManager::addAnimation(new SpriteAnimation(GlobalValues::ANIMATION_GAIN_SLOT, GlobalValues::ANIMATION_GAIN_SLOT_SPEED, finalPosition, ofRadToDeg(angle)));
-			}
+			playGainSlotAnimation(availableSlots);
 	}
 
 	freeSlots = availableSlots;
 	punishedInRound = false;
+}
+
+void Participant::playGainSlotAnimation(const int numberOfSlots)
+{
+	for(int i = 0; i < numberOfSlots; ++i)
+	{
+		ofPoint frontVector(frontDirection * 80);
+		ofPoint hudVector = hud->getHUDPosition(i) + ofPoint(0, 70);
+		float originalAngle = atan2(frontDirection.y, frontDirection.x);
+		float angle = originalAngle + 3.14159f / 2;
+		ofPoint finalPosition = position - 
+			(frontVector + ofPoint(hudVector.x * cos(angle) - hudVector.y * sin(angle), hudVector.x * sin(angle) + hudVector.y * cos(angle)))
+			+ 160 * ofPoint(cos(atan2(frontDirection.y, frontDirection.x)), sin(atan2(frontDirection.y, frontDirection.x)));
+
+		AnimationManager::addAnimation(new SpriteAnimation(GlobalValues::ANIMATION_GAIN_SLOT, GlobalValues::ANIMATION_GAIN_SLOT_SPEED, finalPosition, ofRadToDeg(angle)));
+	}
 }
 
 void Participant::update()
@@ -188,6 +195,13 @@ void Participant::update()
 		{
 			AnimationManager::addAnimation(new FadeOutAnimation(*((*iterator)->getPizzaImage()), GlobalValues::ANIMATION_INGREDIENTS_FADEOUT_SPEED));
 			AnimationManager::addAnimation(new SpriteAnimation(GlobalValues::ANIMATION_INGREDIENTS_EXPLOSION, GlobalValues::ANIMATION_INGREDIENTS_EXPLOSION_SPEED, (*iterator)->getPosition(), 0));
+
+			++freeSlots;
+			if(freeSlots > availableSlots)
+				freeSlots = availableSlots;
+			else
+				playGainSlotAnimation(freeSlots);
+
 			delete *iterator;
 			iterator = ingredients.erase(iterator);
 		}

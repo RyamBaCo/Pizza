@@ -26,6 +26,7 @@ private:
 	void resetIngredients();
 	void removeIngredients();
 	void dropIngredient();
+	void playGainSlotAnimation(const int numberOfSlots);
 
 private:
 	ofPoint position;

@@ -14,6 +14,12 @@ public:
 	static const int DEBUG_PARTICIPANT_DIRECTION_RADIUS = 5;
 #endif
 
+	static const int PIZZA_BASE_ROTATION_SPEED = 20;
+	static const int PIZZA_ROTATION_SPEED_PER_SCORE = 50;
+	// when set to zero no rotation changes
+	static const int PIZZA_MIN_ANGLE_FOR_ROTATION_CHANGE = 200;
+	static const int PIZZA_MAX_ANGLE_FOR_ROTATION_CHANGE = 600;
+
 	static const ofPoint PIZZA_CENTER_POINT;
 	static const int PIZZA_RADIUS = 280;
 	static const int PIZZA_INNER_RADIUS = 130;
@@ -39,18 +45,24 @@ public:
 	static const int ANIMATION_INCREASE_SCORE_SPEED = 50;
 	static const int ANIMATION_NEW_HIGHSCORE_SPEED = 50;
 	static const int ANIMATION_LOSE_SLOT_SPEED = 50;
-	static const int ANIMATION_GAIN_SLOT_SPEED = 100;
+	static const int ANIMATION_GAIN_SLOT_SPEED = 70;
 	static const int ANIMATION_FIRE_SPEED = 50;
 
 	#pragma region IngredientTypes
 
 	enum IngredientType
 	{
-		CHEESE,
+		CHEESE = 0,
 		EGG,
 		PAPRIKA,
 		PINEAPPLE,
-		TOMATO
+		TOMATO,
+		BACON,
+		CORN,
+		MUSHROOM,
+		ONIONS,
+		SALAMI,
+		LAST
 	};
 
 	struct IngredientValues
@@ -99,7 +111,11 @@ private:
 private:
 	std::map<IngredientType, IngredientValues> ingredientMap;
 	std::map<std::string, std::vector<PizzaImage*> > animationImages;
-	int currentPizzaRotation;
+	float currentPizzaRotation;
+	float absoluteRotation;
+	float rotationForChange;
+	bool rotatingClockwise;
 	int currentScore;
+	int lastScore;
 	int highScore;
 };
