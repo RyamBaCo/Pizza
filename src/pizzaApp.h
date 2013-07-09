@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "PizzaImage.h"
 #include "Participant.h"
+#include "ofxOsc.h"
 
 class pizzaApp 
 	: public ofBaseApp
@@ -35,4 +36,5 @@ private:
 	ofTrueTypeFont currentScoreFont;
 
 	unsigned long long lastElapsedMillis;
+	ofxOscReceiver receiver;
 };

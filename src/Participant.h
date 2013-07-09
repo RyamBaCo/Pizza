@@ -39,6 +39,7 @@ private:
 	// lastpoints and frontdirection are used to get the player's orientation
 	std::list<ofPoint> lastPoints;
 	ofPoint frontDirection;
+	ofPoint lastIngredientPosition;
 
 	int freeSlots;
 	int availableSlots;

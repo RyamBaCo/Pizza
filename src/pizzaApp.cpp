@@ -3,6 +3,8 @@
 
 void pizzaApp::setup()
 {
+	receiver.setup(10000);
+
 	ofEnableAlphaBlending();
 	ofSetWindowPosition(30, 100);
 
@@ -58,6 +60,40 @@ void pizzaApp::update()
 	unsigned long long currentElapsedMillis = ofGetElapsedTimeMillis();
 	int deltaTime = currentElapsedMillis - lastElapsedMillis;
 	lastElapsedMillis = currentElapsedMillis;
+
+	while(receiver.hasWaitingMessages())
+	{
+		ofxOscMessage message;
+		receiver.getNextMessage(&message);
+		std::vector<int> idsFound;
+		if (message.getNumArgs() > 1)
+		{
+			for (int i = 0; i < message.getNumArgs(); i += 5)
+			{
+				int id = message.getArgAsInt32(i);
+				idsFound.push_back(id);
+
+				Participant* participant;
+				if  (participants.find(id) == participants.end())
+					participants[id] = new Participant();
+
+				participants[id]->setPosition(
+					ofPoint(message.getArgAsFloat(i + 1) * ofGetWindowSize().x, 
+					message.getArgAsFloat(i + 2) * ofGetWindowSize().y)
+					);
+			}
+		}
+
+		// reset old inputs that are no longer visible
+		vector<int> idsToDelete;
+		for (auto it = participants.begin(); it != participants.end(); ++it)
+			// check if id is not in ids add to delete list
+			if (std::find(idsFound.begin(), idsFound.end(), it->first) == idsFound.end())
+				idsToDelete.push_back(it->first);
+
+		for (vector<int>::iterator it = idsToDelete.begin(); it != idsToDelete.end(); ++it)
+			participants.erase(participants.find(*it));
+	}
 
 	bool newRound = GlobalValues::getInstance().updatePizzaRotation(deltaTime);
 

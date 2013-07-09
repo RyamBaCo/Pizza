@@ -4,13 +4,15 @@
 #include "FadeOutAnimation.h"
 #include "SpriteAnimation.h"
 #include "GlobalValues.h"
+#include <limits>
 
 Participant::Participant()
 	:	position(-1, -1),
 		baseIngredient(0),
 		hud(new ParticipantHUD()),
 		punished(false),
-		punishedInRound(false)
+		punishedInRound(false),
+		lastIngredientPosition(ofPoint(INT_MAX, INT_MAX))
 {
 }
 
@@ -55,8 +57,8 @@ void Participant::setPosition(const ofPoint& position)
 		baseIngredient->setPosition(position);
 
 		if(	freeSlots > 0 &&
-			(	ingredients.empty() ||
-				(position - ingredients.back()->getPosition()).length() >= GlobalValues::INGREDIENT_DROP_RANGE))
+			!punished &&
+			(position - lastIngredientPosition).length() >= GlobalValues::INGREDIENT_DROP_RANGE)
 		{
 			dropIngredient();
 			--freeSlots;
@@ -109,6 +111,7 @@ void Participant::dropIngredient()
 	ingredients.push_back(new Ingredient(baseIngredient->getType()));
 	ingredients.back()->setPosition(position);
 	ingredients.back()->setRotation(baseIngredient->getRotation());
+	lastIngredientPosition = position;
 }
 
 void Participant::removeIngredients()
