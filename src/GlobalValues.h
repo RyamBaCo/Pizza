@@ -1,5 +1,6 @@
 #pragma once
 #include "ofMain.h"
+#include "PizzaImage.h"
 #include <map>
 #include <string>
 
@@ -23,6 +24,14 @@ public:
 	static const int MIN_FREE_SLOTS = 2;
 	static const int START_FREE_SLOTS = 3;
 	static const int MAX_FREE_SLOTS = 6;
+
+	static const std::string ANIMATION_FIRE;
+	static const std::string ANIMATION_GAIN_SLOT;
+	static const std::string ANIMATION_INGREDIENTS_EXPLOSION;
+	static const std::string ANIMATION_INCREASE_SCORE;
+	static const std::string ANIMATION_NEW_HIGHSCORE;
+	static const std::string ANIMATION_INGREDIENTS_SPAWN;
+	static const std::string ANIMATION_LOSE_SLOT;
 
 	static const int ANIMATION_INGREDIENTS_FADEOUT_SPEED = 500;
 	static const int ANIMATION_INGREDIENTS_EXPLOSION_SPEED = 50;
@@ -69,8 +78,10 @@ public:
 	#pragma endregion IngredientTypes
 
 	static GlobalValues& getInstance();
+	void cleanUp();
 
 	IngredientValues getValuesForIngredient(const IngredientType& type);
+	std::vector<PizzaImage*> getAnimationImages(std::string animationName);
 	int getCurrentPizzaRotation() const;
 	int getHighScore() const;
 	int getCurrentScore() const;
@@ -87,6 +98,7 @@ private:
 
 private:
 	std::map<IngredientType, IngredientValues> ingredientMap;
+	std::map<std::string, std::vector<PizzaImage*> > animationImages;
 	int currentPizzaRotation;
 	int currentScore;
 	int highScore;

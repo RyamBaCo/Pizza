@@ -102,7 +102,7 @@ void Participant::resetIngredients()
 
 void Participant::dropIngredient()
 {
-	AnimationManager::addAnimation(new SpriteAnimation("fx7_energyBall", 32, GlobalValues::ANIMATION_INGREDIENTS_SPAWN_SPEED, position - ofPoint(45 - 80 / 2, 40 - 67 / 2), 0));
+	AnimationManager::addAnimation(new SpriteAnimation(GlobalValues::ANIMATION_INGREDIENTS_SPAWN, GlobalValues::ANIMATION_INGREDIENTS_SPAWN_SPEED, position - ofPoint(45 - 80 / 2, 40 - 67 / 2), 0));
 	baseIngredient->setRotation(ofRandom(0, 360));
 	ingredients.push_back(new Ingredient(baseIngredient->getType()));
 	ingredients.back()->setPosition(position);
@@ -142,7 +142,7 @@ void Participant::roundComplete()
 					(frontVector + ofPoint(hudVector.x * cos(angle) - hudVector.y * sin(angle), hudVector.x * sin(angle) + hudVector.y * cos(angle)))
 					+ 160 * ofPoint(cos(atan2(frontDirection.y, frontDirection.x)), sin(atan2(frontDirection.y, frontDirection.x)));
 
-				AnimationManager::addAnimation(new SpriteAnimation("fx1_blue_topEffect", 22, GlobalValues::ANIMATION_GAIN_SLOT_SPEED, finalPosition, ofRadToDeg(angle)));
+				AnimationManager::addAnimation(new SpriteAnimation(GlobalValues::ANIMATION_GAIN_SLOT, GlobalValues::ANIMATION_GAIN_SLOT_SPEED, finalPosition, ofRadToDeg(angle)));
 			}
 	}
 
@@ -170,7 +170,7 @@ void Participant::update()
 					(frontVector + ofPoint(hudVector.x * cos(angle) - hudVector.y * sin(angle), hudVector.x * sin(angle) + hudVector.y * cos(angle)))
 					+ 160 * ofPoint(cos(atan2(frontDirection.y, frontDirection.x)), sin(atan2(frontDirection.y, frontDirection.x)));
 
-				AnimationManager::addAnimation(new SpriteAnimation("fx10_blackExplosion", 19, GlobalValues::ANIMATION_LOSE_SLOT_SPEED, finalPosition, ofRadToDeg(angle)));
+				AnimationManager::addAnimation(new SpriteAnimation(GlobalValues::ANIMATION_LOSE_SLOT, GlobalValues::ANIMATION_LOSE_SLOT_SPEED, finalPosition, ofRadToDeg(angle)));
 			}
 		if(availableSlots > freeSlots)
 			freeSlots = availableSlots;
@@ -187,7 +187,7 @@ void Participant::update()
 		if((*iterator)->isReadyForDelete())
 		{
 			AnimationManager::addAnimation(new FadeOutAnimation(*((*iterator)->getPizzaImage()), GlobalValues::ANIMATION_INGREDIENTS_FADEOUT_SPEED));
-			AnimationManager::addAnimation(new SpriteAnimation("fx3_fireball", 20, GlobalValues::ANIMATION_INGREDIENTS_EXPLOSION_SPEED, (*iterator)->getPosition(), 0));
+			AnimationManager::addAnimation(new SpriteAnimation(GlobalValues::ANIMATION_INGREDIENTS_EXPLOSION, GlobalValues::ANIMATION_INGREDIENTS_EXPLOSION_SPEED, (*iterator)->getPosition(), 0));
 			delete *iterator;
 			iterator = ingredients.erase(iterator);
 		}

@@ -17,7 +17,6 @@ void pizzaApp::setup()
 	GlobalValues::getInstance().initSliceAnimations();
 
 	lastElapsedMillis = ofGetElapsedTimeMillis();
-	
 }
 
 void pizzaApp::exit()
@@ -51,6 +50,7 @@ void pizzaApp::exit()
 	participants.clear();
 
 	AnimationManager::cleanUp();
+	GlobalValues::getInstance().cleanUp();
 }
 
 void pizzaApp::update()
@@ -78,8 +78,10 @@ void pizzaApp::draw()
 	pizzaFront->draw();
 	pizzaCenter->draw();
 
-	highScoreFont.drawString(ofToString(GlobalValues::getInstance().getHighScore()), ofGetWindowWidth() / 2 - 15, ofGetWindowHeight() / 2 - 10);
-	currentScoreFont.drawString(ofToString(GlobalValues::getInstance().getCurrentScore()), ofGetWindowWidth() / 2 - 15, ofGetWindowHeight() / 2 + 50);
+	int highScore = GlobalValues::getInstance().getHighScore();
+	int currentScore = GlobalValues::getInstance().getCurrentScore();
+	highScoreFont.drawString(ofToString(highScore), GlobalValues::PIZZA_CENTER_POINT.x - (highScore >= 10 ? 35 : 15), GlobalValues::PIZZA_CENTER_POINT.y - 10);
+	currentScoreFont.drawString(ofToString(currentScore), GlobalValues::PIZZA_CENTER_POINT.x - (currentScore >= 10 ? 25 : 15), GlobalValues::PIZZA_CENTER_POINT.y + 50);
 
 	for(auto iterator = participants.begin(); iterator != participants.end(); ++iterator)
 		(*iterator).second->draw();

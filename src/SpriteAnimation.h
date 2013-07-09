@@ -6,7 +6,7 @@
 class SpriteAnimation : public BaseAnimation
 {
 public:
-	SpriteAnimation(const std::string& folderName, const int numberOfFrames, const int timePerFrame, const ofPoint& position, const float rotation, bool loop = false);
+	SpriteAnimation(const std::string& animationName, const int timePerFrame, const ofPoint& position, const float rotation, bool loop = false);
 	~SpriteAnimation();
 
 	void setPosition(const ofPoint& position);
@@ -18,9 +18,11 @@ public:
 private:
 	int passedTime;
 	int currentFrame;
-	const int numberOfFrames;
-	const int timePerFrame;
+	int numberOfFrames;
+	int timePerFrame;
 	bool loop;
+	ofPoint position;
+	float rotation;
 
 	// TODO use less memory consuming data structure
 	std::vector<PizzaImage*> frames;
