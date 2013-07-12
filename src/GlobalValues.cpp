@@ -126,7 +126,7 @@ bool GlobalValues::updatePizzaRotation(int deltaTime)
 	{
 		if(currentScore > highScore)
 		{
-			AnimationManager::addAnimation(new SpriteAnimation(GlobalValues::ANIMATION_NEW_HIGHSCORE, GlobalValues::ANIMATION_NEW_HIGHSCORE_SPEED, ofPoint(ofGetScreenWidth() / 2 - 410 + 168 / 2, ofGetWindowHeight() / 2 - 140 + 148 / 2), 0));
+			AnimationManager::addAnimation(new SpriteAnimation(GlobalValues::ANIMATION_NEW_HIGHSCORE, GlobalValues::ANIMATION_NEW_HIGHSCORE_SPEED, ofPoint(GlobalValues::PIZZA_CENTER_POINT.x, GlobalValues::PIZZA_CENTER_POINT.y - 140 + 148 / 2), 0));
 			highScore = currentScore;
 		}
 		lastScore = currentScore;
@@ -166,7 +166,7 @@ bool GlobalValues::updatePizzaRotation(int deltaTime)
 void GlobalValues::increaseCurrentScore()
 {
 	++currentScore;
-	AnimationManager::addAnimation(new SpriteAnimation(GlobalValues::ANIMATION_INCREASE_SCORE, GlobalValues::ANIMATION_INCREASE_SCORE_SPEED, ofPoint(ofGetScreenWidth() / 2 - 410 + 133 / 2, ofGetWindowHeight() / 2 - 75 + 169 / 2), 0));
+	AnimationManager::addAnimation(new SpriteAnimation(GlobalValues::ANIMATION_INCREASE_SCORE, GlobalValues::ANIMATION_INCREASE_SCORE_SPEED, ofPoint(GlobalValues::PIZZA_CENTER_POINT.x - 15, GlobalValues::PIZZA_CENTER_POINT.y - 75 + 169 / 2), 0));
 }
 
 void GlobalValues::cleanUp()

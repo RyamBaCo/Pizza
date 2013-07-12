@@ -13,7 +13,6 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\pizzaApp.cpp" />
     <ClCompile Include="src\SpriteAnimation.cpp" />
-    <ClCompile Include="..\..\..\addons\ofxOsc\libs\oscpack\src\ip\IpEndpointName.cpp" />
     <ClCompile Include="..\..\..\addons\ofxOsc\src\ofxOscBundle.cpp">
       <Filter>ofxOsc</Filter>
     </ClCompile>
@@ -50,6 +49,9 @@
     <ClCompile Include="..\..\..\addons\ofxOsc\libs\oscpack\src\ip\win32\NetworkingUtilsWin.cpp">
       <Filter>ofxOsc</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\addons\ofxOsc\libs\oscpack\src\ip\IpEndpointName.cpp">
+      <Filter>ofxOsc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AnimationManager.h" />
@@ -63,7 +65,6 @@
     <ClInclude Include="src\PizzaImage.h" />
     <ClInclude Include="src\pizzaApp.h" />
     <ClInclude Include="src\SpriteAnimation.h" />
-    <ClInclude Include="..\..\..\addons\ofxOsc\libs\oscpack\src\ip\IpEndpointName.h" />
     <ClInclude Include="..\..\..\addons\ofxOsc\src\ofxOsc.h">
       <Filter>ofxOsc</Filter>
     </ClInclude>
@@ -116,6 +117,9 @@
       <Filter>ofxOsc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\addons\ofxOsc\libs\oscpack\src\ip\TimerListener.h">
+      <Filter>ofxOsc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxOsc\libs\oscpack\src\ip\IpEndpointName.h">
       <Filter>ofxOsc</Filter>
     </ClInclude>
   </ItemGroup>
