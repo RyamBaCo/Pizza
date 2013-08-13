@@ -7,6 +7,7 @@ void pizzaApp::setup()
 
 	ofEnableAlphaBlending();
 	ofSetWindowPosition(30, 100);
+	ofBackground(0, 0, 0);
 
 	pizzaBackground = new PizzaImage("images/pizzaEmpty.png");
 	pizzaSlice = new PizzaImage("images/pizzaSlice.png");
@@ -14,8 +15,8 @@ void pizzaApp::setup()
 	pizzaCenter = new PizzaImage("images/pizzaCenter.png");
 
 	ofTrueTypeFont::setGlobalDpi(72);
-	highScoreFont.loadFont("Arcade Book.ttf", 100, true, true);
-	currentScoreFont.loadFont("Arcade Book.ttf", 60, true, true);
+	highScoreFont.loadFont("Arcade Book.ttf", 90, true, true);
+	currentScoreFont.loadFont("Arcade Book.ttf", 50, true, true);
 	GlobalValues::getInstance().initSliceAnimations();
 
 	lastElapsedMillis = ofGetElapsedTimeMillis();
@@ -117,7 +118,7 @@ void pizzaApp::draw()
 	int highScore = GlobalValues::getInstance().getHighScore();
 	int currentScore = GlobalValues::getInstance().getCurrentScore();
 	highScoreFont.drawString(ofToString(highScore), GlobalValues::PIZZA_CENTER_POINT.x - (highScore >= 10 ? 35 : 15), GlobalValues::PIZZA_CENTER_POINT.y - 10);
-	currentScoreFont.drawString(ofToString(currentScore), GlobalValues::PIZZA_CENTER_POINT.x - (currentScore >= 10 ? 25 : 15), GlobalValues::PIZZA_CENTER_POINT.y + 50);
+	currentScoreFont.drawString(ofToString(currentScore), GlobalValues::PIZZA_CENTER_POINT.x - (currentScore >= 10 ? 25 : 15), GlobalValues::PIZZA_CENTER_POINT.y + 40);
 
 	for(auto iterator = participants.begin(); iterator != participants.end(); ++iterator)
 		(*iterator).second->draw();
