@@ -24,7 +24,8 @@ public:
 	static const int PIZZA_RADIUS = 260;
 	static const int PIZZA_INNER_RADIUS = 90;
 	static const int SLICE_ANGLE = 45;
-	static const int MAX_POINTS_FOR_DIRECTION = 80;
+	static const int MAX_POINTS_FOR_DIRECTION = 15;
+	static const int MIN_DISTANCE_FOR_DIRECTION = 3;
 	static const int INGREDIENT_DROP_RANGE = 200;
 	static const int HUD_DISTANCE = 50;
 	static const int MIN_FREE_SLOTS = 2;

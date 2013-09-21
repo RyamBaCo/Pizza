@@ -74,9 +74,12 @@ void Participant::setPosition(const ofPoint& position)
 		frontDirection = (position - averageDirection).normalize();
 	}
 	
-	lastPoints.push_back(position);
-	if(lastPoints.size() > GlobalValues::MAX_POINTS_FOR_DIRECTION)
-		lastPoints.pop_front();
+	if(lastPoints.size() == 0 || lastPoints.back().distance(position) > GlobalValues::MIN_DISTANCE_FOR_DIRECTION)
+	{
+		lastPoints.push_back(position);
+		if(lastPoints.size() > GlobalValues::MAX_POINTS_FOR_DIRECTION)
+			lastPoints.pop_front();
+	}
 }
 
 ofPoint Participant::getPosition() const
