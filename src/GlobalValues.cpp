@@ -21,16 +21,16 @@ GlobalValues::GlobalValues()
 		currentPizzaRotation(0)
 {
 	// TODO read all the mapping values from XML or JSON
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(CHEESE, IngredientValues("images/ingredients/cheese.png", "sounds/Cabasa.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(EGG, IngredientValues("images/ingredients/egg.png", "sounds/Clap.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(PAPRIKA, IngredientValues("images/ingredients/paprika.png", "sounds/Claves.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(PINEAPPLE, IngredientValues("images/ingredients/pineapple.png", "sounds/Cowbell.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(TOMATO, IngredientValues("images/ingredients/tomato.png", "sounds/Crash.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(BACON, IngredientValues("images/ingredients/bacon.png", "sounds/Crash.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(CORN, IngredientValues("images/ingredients/corn.png", "sounds/Crash.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(MUSHROOM, IngredientValues("images/ingredients/mushroom.png", "sounds/Crash.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(ONIONS, IngredientValues("images/ingredients/onions.png", "sounds/Crash.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(SALAMI, IngredientValues("images/ingredients/salami.png", "sounds/Crash.wav")));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(CHEESE, IngredientValues("images/ingredients/cheese.png", "sounds/01-cheese.wav")));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(EGG, IngredientValues("images/ingredients/egg.png", "sounds/02-egg.wav")));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(PAPRIKA, IngredientValues("images/ingredients/paprika.png", "sounds/03-paprika.wav")));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(PINEAPPLE, IngredientValues("images/ingredients/pineapple.png", "sounds/04-pineapple.wav")));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(TOMATO, IngredientValues("images/ingredients/tomato.png", "sounds/05-tomato.wav")));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(BACON, IngredientValues("images/ingredients/bacon.png", "sounds/06-bacon.wav")));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(CORN, IngredientValues("images/ingredients/corn.png", "sounds/07-corn.wav")));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(MUSHROOM, IngredientValues("images/ingredients/mushroom.png", "sounds/08-mushroom.wav")));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(ONIONS, IngredientValues("images/ingredients/onions.png", "sounds/09-onions.wav")));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(SALAMI, IngredientValues("images/ingredients/salami.png", "sounds/10-salami.wav")));
 
 	std::map<std::string, int> numberOfFrames;
 	numberOfFrames[GlobalValues::ANIMATION_FIRE] = 40;
