@@ -1,0 +1,12 @@
+00 - OST       - Armando Trovajoli - Sessomatto
+01 - CHEESE    - http://www.freesound.org/people/ggctuk/sounds/80550/
+02 - EGG       - http://www.freesound.org/people/Robinhood76/sounds/82604/
+03 - PAPRIKA   - http://freesound.org/people/thedapperdan/sounds/199923/
+04 - PINEAPPLE - http://www.freesound.org/people/Slave2theLight/sounds/157049/
+05 - TOMATO    - http://freesound.org/people/thedapperdan/sounds/199923/
+06 - BACON     - http://freesound.org/people/ggctuk/sounds/80551/
+07 - CORN      - http://www.freesound.org/people/Sir%20Smith/sounds/64324/
+08 - MUSHROOM  - http://freesound.org/people/thedapperdan/sounds/199923/
+09 - ONIONS    - http://www.freesound.org/people/Miki_Loz/sounds/87085/
+10 - SALAMI    - http://www.freesound.org/people/elektroproleter/sounds/157571/
+11 - LAST      - http://www.freesound.org/people/noirenex/sounds/159408/
