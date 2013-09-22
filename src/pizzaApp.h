@@ -37,4 +37,5 @@ private:
 
 	unsigned long long lastElapsedMillis;
 	ofxOscReceiver receiver;
+	ofSoundPlayer backSound;
 };

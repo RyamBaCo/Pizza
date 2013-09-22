@@ -14,6 +14,8 @@ Participant::Participant()
 		punishedInRound(false),
 		lastIngredientPosition(ofPoint(INT_MAX, INT_MAX))
 {
+	burntSound.loadSound("sounds/11-last.wav");
+	burntSound.setMultiPlay(true);
 }
 
 Participant::~Participant()
@@ -34,6 +36,7 @@ Participant::~Participant()
 		delete *iterator;
 
 	ingredients.clear();
+	burntSound.unloadSound();
 }
 
 void Participant::setPosition(const ofPoint& position)
@@ -168,6 +171,7 @@ void Participant::update()
 	if(!punished && HelperFunctions::isPositionInSlice(position))
 	{
 		punished = true;
+		burntSound.play();
 
 		--availableSlots;
 		if(availableSlots < GlobalValues::MIN_FREE_SLOTS)

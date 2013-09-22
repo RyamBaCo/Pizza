@@ -45,5 +45,7 @@ private:
 	int availableSlots;
 	bool punished;
 	bool punishedInRound;
+
+	ofSoundPlayer burntSound;
 };
 

@@ -19,6 +19,10 @@ void pizzaApp::setup()
 	currentScoreFont.loadFont("Arcade Book.ttf", 50, true, true);
 	GlobalValues::getInstance().initSliceAnimations();
 
+	backSound.loadSound("sounds/00-back.wav");
+	backSound.setLoop(true);
+	backSound.play();
+
 	lastElapsedMillis = ofGetElapsedTimeMillis();
 }
 
@@ -54,6 +58,8 @@ void pizzaApp::exit()
 
 	AnimationManager::cleanUp();
 	GlobalValues::getInstance().cleanUp();
+
+	backSound.unloadSound();
 }
 
 void pizzaApp::update()
