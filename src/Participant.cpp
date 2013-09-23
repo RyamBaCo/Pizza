@@ -176,19 +176,20 @@ void Participant::update()
 		--availableSlots;
 		if(availableSlots < GlobalValues::MIN_FREE_SLOTS)
 			availableSlots = GlobalValues::MIN_FREE_SLOTS;
-		else
-			for(int i = availableSlots; i < 6; ++i)
-			{
-				ofPoint frontVector(frontDirection * 80);
-				ofPoint hudVector = hud->getHUDPosition(i);
-				float originalAngle = atan2(frontDirection.y, frontDirection.x);
-				float angle = originalAngle + 3.14159f / 2;
-				ofPoint finalPosition = position - 
-					(frontVector + ofPoint(hudVector.x * cos(angle) - hudVector.y * sin(angle), hudVector.x * sin(angle) + hudVector.y * cos(angle)))
-					+ 160 * ofPoint(cos(atan2(frontDirection.y, frontDirection.x)), sin(atan2(frontDirection.y, frontDirection.x)));
 
-				AnimationManager::addAnimation(new SpriteAnimation(GlobalValues::ANIMATION_LOSE_SLOT, GlobalValues::ANIMATION_LOSE_SLOT_SPEED, finalPosition, ofRadToDeg(angle)));
-			}
+		for(int i = availableSlots; i < 6; ++i)
+		{
+			ofPoint frontVector(frontDirection * 80);
+			ofPoint hudVector = hud->getHUDPosition(i);
+			float originalAngle = atan2(frontDirection.y, frontDirection.x);
+			float angle = originalAngle + 3.14159f / 2;
+			ofPoint finalPosition = position - 
+				(frontVector + ofPoint(hudVector.x * cos(angle) - hudVector.y * sin(angle), hudVector.x * sin(angle) + hudVector.y * cos(angle)))
+				+ 160 * ofPoint(cos(atan2(frontDirection.y, frontDirection.x)), sin(atan2(frontDirection.y, frontDirection.x)));
+
+			AnimationManager::addAnimation(new SpriteAnimation(GlobalValues::ANIMATION_LOSE_SLOT, GlobalValues::ANIMATION_LOSE_SLOT_SPEED, finalPosition, ofRadToDeg(angle)));
+		}
+
 		if(availableSlots > freeSlots)
 			freeSlots = availableSlots;
 
