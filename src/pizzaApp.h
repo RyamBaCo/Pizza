@@ -31,6 +31,10 @@ private:
 	PizzaImage* pizzaSlice;
 	PizzaImage* pizzaFront;
 	PizzaImage* pizzaCenter;
+	PizzaImage* image1;
+	PizzaImage* image2;
+	PizzaImage* image3;
+	PizzaImage* imageGo;
 
 	ofTrueTypeFont highScoreFont;
 	ofTrueTypeFont currentScoreFont;
@@ -38,4 +42,6 @@ private:
 	unsigned long long lastElapsedMillis;
 	ofxOscReceiver receiver;
 	ofSoundPlayer backSound;
+	int timeForCountdown;
+	bool playersInGameLastRound;
 };

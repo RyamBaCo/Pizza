@@ -4,42 +4,39 @@
 
 const ofPoint GlobalValues::PIZZA_CENTER_POINT = ofPoint(1024 / 2, 768 / 2);
 const std::string GlobalValues::ANIMATION_FIRE = "fire_1_40";
-const std::string GlobalValues::ANIMATION_GAIN_SLOT = "fx1_blue_topEffect";
 const std::string GlobalValues::ANIMATION_INGREDIENTS_EXPLOSION = "fx3_fireBall";
 const std::string GlobalValues::ANIMATION_INCREASE_SCORE = "fx5_fire_scissors";
 const std::string GlobalValues::ANIMATION_NEW_HIGHSCORE = "fx6_eaterFire";
 const std::string GlobalValues::ANIMATION_INGREDIENTS_SPAWN = "fx7_energyBall";
-const std::string GlobalValues::ANIMATION_LOSE_SLOT = "fx10_blackExplosion";
 
 GlobalValues::GlobalValues()
 	:	currentScore(0),
 		lastScore(0),
 		highScore(0),
 		rotatingClockwise(true),
+		gameStopped(false),
 		rotationForChange(ofRandom(GlobalValues::PIZZA_MIN_ANGLE_FOR_ROTATION_CHANGE, GlobalValues::PIZZA_MAX_ANGLE_FOR_ROTATION_CHANGE)),
 		absoluteRotation(0),
 		currentPizzaRotation(0)
 {
 	// TODO read all the mapping values from XML or JSON
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(CHEESE, IngredientValues("images/ingredients/cheese.png", "sounds/01-cheese.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(EGG, IngredientValues("images/ingredients/egg.png", "sounds/02-egg.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(PAPRIKA, IngredientValues("images/ingredients/paprika.png", "sounds/03-paprika.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(PINEAPPLE, IngredientValues("images/ingredients/pineapple.png", "sounds/04-pineapple.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(TOMATO, IngredientValues("images/ingredients/tomato.png", "sounds/05-tomato.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(BACON, IngredientValues("images/ingredients/bacon.png", "sounds/06-bacon.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(CORN, IngredientValues("images/ingredients/corn.png", "sounds/07-corn.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(MUSHROOM, IngredientValues("images/ingredients/mushroom.png", "sounds/08-mushroom.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(ONIONS, IngredientValues("images/ingredients/onions.png", "sounds/09-onions.wav")));
-	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(SALAMI, IngredientValues("images/ingredients/salami.png", "sounds/10-salami.wav")));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(CHEESE, IngredientValues("images/ingredients/cheese.png", "sounds/01-cheese.wav", ofColor(253, 244, 60))));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(EGG, IngredientValues("images/ingredients/egg.png", "sounds/02-egg.wav", ofColor(255, 252, 253))));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(PAPRIKA, IngredientValues("images/ingredients/paprika.png", "sounds/03-paprika.wav", ofColor(20, 103, 9))));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(PINEAPPLE, IngredientValues("images/ingredients/pineapple.png", "sounds/04-pineapple.wav", ofColor(255, 250, 94))));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(TOMATO, IngredientValues("images/ingredients/tomato.png", "sounds/05-tomato.wav", ofColor(239, 55, 10))));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(BACON, IngredientValues("images/ingredients/bacon.png", "sounds/06-bacon.wav", ofColor(201, 156, 99))));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(CORN, IngredientValues("images/ingredients/corn.png", "sounds/07-corn.wav", ofColor(195, 132, 26))));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(MUSHROOM, IngredientValues("images/ingredients/mushroom.png", "sounds/08-mushroom.wav", ofColor(246, 239, 213))));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(ONIONS, IngredientValues("images/ingredients/onions.png", "sounds/09-onions.wav", ofColor(248, 238, 161))));
+	ingredientMap.insert(std::pair<IngredientType, IngredientValues>(SALAMI, IngredientValues("images/ingredients/salami.png", "sounds/10-salami.wav", ofColor(201, 47, 18))));
 
 	std::map<std::string, int> numberOfFrames;
 	numberOfFrames[GlobalValues::ANIMATION_FIRE] = 40;
-	numberOfFrames[GlobalValues::ANIMATION_GAIN_SLOT] = 22;
 	numberOfFrames[GlobalValues::ANIMATION_INGREDIENTS_EXPLOSION] = 20;
 	numberOfFrames[GlobalValues::ANIMATION_INCREASE_SCORE] = 13;
 	numberOfFrames[GlobalValues::ANIMATION_NEW_HIGHSCORE] = 20;
 	numberOfFrames[GlobalValues::ANIMATION_INGREDIENTS_SPAWN] = 32;
-	numberOfFrames[GlobalValues::ANIMATION_LOSE_SLOT] = 19;
 
 	for(auto iterator = numberOfFrames.begin(); iterator != numberOfFrames.end(); ++iterator)
 		for(int i = 0; i < (*iterator).second; ++i)
@@ -70,6 +67,11 @@ int GlobalValues::getHighScore() const
 int GlobalValues::getCurrentScore() const
 {
 	return currentScore;
+}
+
+bool GlobalValues::isGameStopped() const
+{
+	return gameStopped;
 }
 
 std::vector<PizzaImage*> GlobalValues::getAnimationImages(std::string animationName)
@@ -122,20 +124,6 @@ bool GlobalValues::updatePizzaRotation(int deltaTime)
 		}
 	}
 	
-	if(newRound)	
-	{
-		if(currentScore > highScore)
-		{
-			AnimationManager::addAnimation(new SpriteAnimation(GlobalValues::ANIMATION_NEW_HIGHSCORE, GlobalValues::ANIMATION_NEW_HIGHSCORE_SPEED, ofPoint(GlobalValues::PIZZA_CENTER_POINT.x, GlobalValues::PIZZA_CENTER_POINT.y - 140 + 148 / 2), 0));
-			highScore = currentScore;
-		}
-		lastScore = currentScore;
-		currentScore = 0;
-
-		
-		return true;
-	}
-
 	for(int i = 0; i < 3; ++i)
 	{
 		int currentDistance = 140 + 170 * i / 3.0f;
@@ -160,13 +148,31 @@ bool GlobalValues::updatePizzaRotation(int deltaTime)
 	((SpriteAnimation*)AnimationManager::getAnimationAt(9))->setPosition(GlobalValues::PIZZA_CENTER_POINT + ofPoint(110 * cos(ofDegToRad(currentPizzaRotation + 8)), 110 * sin(ofDegToRad(currentPizzaRotation + 8))));
 	((SpriteAnimation*)AnimationManager::getAnimationAt(9))->setRotation(currentPizzaRotation);
 
-	return false;
+	return newRound;
+}
+
+void GlobalValues::updateHighScore()
+{
+	if(currentScore > highScore)
+	{
+		AnimationManager::addAnimation(new SpriteAnimation(GlobalValues::ANIMATION_NEW_HIGHSCORE, GlobalValues::ANIMATION_NEW_HIGHSCORE_SPEED, ofPoint(GlobalValues::PIZZA_CENTER_POINT.x, GlobalValues::PIZZA_CENTER_POINT.y - 140 + 148 / 2), 0));
+		highScore = currentScore;
+	}
+	lastScore = currentScore;
+	currentScore = 0;
+	gameStopped = true;
 }
 
 void GlobalValues::increaseCurrentScore()
 {
 	++currentScore;
 	AnimationManager::addAnimation(new SpriteAnimation(GlobalValues::ANIMATION_INCREASE_SCORE, GlobalValues::ANIMATION_INCREASE_SCORE_SPEED, ofPoint(GlobalValues::PIZZA_CENTER_POINT.x - 15, GlobalValues::PIZZA_CENTER_POINT.y - 75 + 169 / 2), 0));
+}
+
+void GlobalValues::resetCurrentScore()
+{
+	currentScore = 0;
+	lastScore = 0;
 }
 
 void GlobalValues::cleanUp()
@@ -182,4 +188,14 @@ void GlobalValues::cleanUp()
 	}
 
 	animationImages.clear();
+}
+
+void GlobalValues::startGame()
+{
+	gameStopped = false;
+}
+
+void GlobalValues::stopGame()
+{
+	gameStopped = true;
 }

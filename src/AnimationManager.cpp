@@ -24,6 +24,11 @@ BaseAnimation* AnimationManager::getAnimationAt(int index)
 	return 0;
 }
 
+int AnimationManager::getAnimationCount()
+{
+	return animations.size();
+}
+
 void AnimationManager::addAnimation(BaseAnimation* animation)
 {
 	animations.push_back(animation);

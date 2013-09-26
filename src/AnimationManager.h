@@ -9,6 +9,7 @@ public:
 	~AnimationManager();
 
 	static BaseAnimation* getAnimationAt(int index);
+	static int getAnimationCount();
 
 	static void addAnimation(BaseAnimation* animation);
 	static void update(int deltaTime);

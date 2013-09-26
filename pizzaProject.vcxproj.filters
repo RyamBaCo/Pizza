@@ -8,7 +8,6 @@
     <ClCompile Include="src\HelperFunctions.cpp" />
     <ClCompile Include="src\Ingredient.cpp" />
     <ClCompile Include="src\Participant.cpp" />
-    <ClCompile Include="src\ParticipantHUD.cpp" />
     <ClCompile Include="src\PizzaImage.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\pizzaApp.cpp" />
@@ -61,7 +60,6 @@
     <ClInclude Include="src\HelperFunctions.h" />
     <ClInclude Include="src\Ingredient.h" />
     <ClInclude Include="src\Participant.h" />
-    <ClInclude Include="src\ParticipantHUD.h" />
     <ClInclude Include="src\PizzaImage.h" />
     <ClInclude Include="src\pizzaApp.h" />
     <ClInclude Include="src\SpriteAnimation.h" />

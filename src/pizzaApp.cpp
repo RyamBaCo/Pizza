@@ -13,6 +13,10 @@ void pizzaApp::setup()
 	pizzaSlice = new PizzaImage("images/pizzaSlice.png");
 	pizzaFront = new PizzaImage("images/pizzaFront.png");
 	pizzaCenter = new PizzaImage("images/pizzaCenter.png");
+	image1 = new PizzaImage("images/1.png");
+	image2 = new PizzaImage("images/2.png");
+	image3 = new PizzaImage("images/3.png");
+	imageGo = new PizzaImage("images/go.png");
 
 	ofTrueTypeFont::setGlobalDpi(72);
 	highScoreFont.loadFont("Arcade Book.ttf", 90, true, true);
@@ -24,6 +28,7 @@ void pizzaApp::setup()
 	backSound.play();
 
 	lastElapsedMillis = ofGetElapsedTimeMillis();
+	playersInGameLastRound = false;
 }
 
 void pizzaApp::exit()
@@ -50,6 +55,30 @@ void pizzaApp::exit()
 	{
 		delete pizzaCenter;
 		pizzaCenter = 0;
+	}
+
+	if(image1 != 0)
+	{
+		delete image1;
+		image1 = 0;
+	}
+
+	if(image2 != 0)
+	{
+		delete image2;
+		image2 = 0;
+	}
+
+	if(image3 != 0)
+	{
+		delete image3;
+		image3 = 0;
+	}
+
+	if(imageGo != 0)
+	{
+		delete imageGo;
+		imageGo = 0;
 	}
 
 	for(auto iterator = participants.begin(); iterator != participants.end(); ++iterator)
@@ -102,16 +131,42 @@ void pizzaApp::update()
 			participants.erase(participants.find(*it));
 	}
 
-	bool newRound = GlobalValues::getInstance().updatePizzaRotation(deltaTime);
-
-	for(auto iterator = participants.begin(); iterator != participants.end(); ++iterator)
+	if(!GlobalValues::getInstance().isGameStopped())
 	{
-		if(newRound)
-			(*iterator).second->roundComplete();
-		(*iterator).second->update();
+		GlobalValues::getInstance().updatePizzaRotation(deltaTime);
+		for(auto iterator = participants.begin(); iterator != participants.end(); ++iterator)
+			(*iterator).second->update();
+	}
+	
+	AnimationManager::update(deltaTime);
+
+	bool playersInGame = false;
+	for(auto iterator = participants.begin(); iterator != participants.end(); ++iterator)
+		if((*iterator).second->hasIngredient())
+			playersInGame = true;
+
+	if(!playersInGame)
+	{
+		GlobalValues::getInstance().resetCurrentScore();
+		GlobalValues::getInstance().startGame();
+		timeForCountdown = 0;
 	}
 
-	AnimationManager::update(deltaTime);
+	if(playersInGame && !playersInGameLastRound)
+		GlobalValues::getInstance().stopGame();
+
+	playersInGameLastRound = playersInGame;
+
+	if(GlobalValues::getInstance().isGameStopped())// && AnimationManager::getAnimationCount() <= 10)
+	{
+		timeForCountdown += deltaTime;
+		if(timeForCountdown >= 4000)
+		{
+			GlobalValues::getInstance().resetCurrentScore();
+			GlobalValues::getInstance().startGame();
+			timeForCountdown = 0;
+		}
+	}
 }
 
 void pizzaApp::draw()
@@ -128,6 +183,15 @@ void pizzaApp::draw()
 
 	for(auto iterator = participants.begin(); iterator != participants.end(); ++iterator)
 		(*iterator).second->draw();
+
+	if(timeForCountdown > 3000)
+		imageGo->draw();
+	else if(timeForCountdown > 2000)
+		image3->draw();
+	else if(timeForCountdown > 1000)
+		image2->draw();
+	else if(timeForCountdown > 0)
+		image1->draw();
 
 	AnimationManager::draw();
 }
